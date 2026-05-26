@@ -25,12 +25,16 @@ void exibirMenu(){
 int main(){
     int opcao; // Declaração da variavel para escolha da ação a ser tomada
     
+    do{
     exibirMenu();
 
     scanf(""); // Para ele não pegar o /n do printf do "exibirMenu" como input sem querer.
     scanf("%d", &opcao);
     
-    printf("Opcao escolida: %d", opcao);
+    printf("Opcao escolida: %d\n", opcao);
+    } while (opcao != 0);
+
+    printf("\nSaindo...");
 
     return 0;
 }
