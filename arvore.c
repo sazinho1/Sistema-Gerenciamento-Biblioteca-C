@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//FUNÇÕES PARA CRIAR ARVORE E INSERIR/BUSCAR NA ARVORE
+//FUNÇÕES PARA CRIAR ARVORE E INSERIR/BUSCAR NA ARVORE --------------------------------------------------------------------------
 
 Arvore* criarArvore(){
+    // Complexidade: O(1). Aloca (já atribuindo a variável), faz uma verificação para ver se não deu erro e uma atribuição e retorna. Sem recursividade ou loops, portanto, O(1).
+
     Arvore *a = malloc(sizeof(Arvore)); //Faz a alocação de memória e bota o endereço de memória no ponteiro
 
     if (a == NULL) {
@@ -19,85 +21,75 @@ Arvore* criarArvore(){
 }
 
 
+NoArvore* inserirLivroAuxiliar(NoArvore *no, Livro* livro){
+    // Complexidade Máxima: O(log n), já que tempo de descida é O(log n). Na volta da recursão, o algoritmo verifica o balanceamento e faz, no máximo, duas rotações (que custam O(1)), dando uma complexidade de tempo de O(log n) na volta e uma complexidade total de O(log n).
+
+    // TRECHO PARA ALOCAÇÃO E DEFINIÇÃO DO NÓ
+    if (no == NULL) {
+        NoArvore *novoNo = (NoArvore*) malloc(sizeof(NoArvore)); // Aloca o espaço pro novo nó
+        novoNo->livro = livro; // Coloca o livro indicado na assinatura do método como o livro dentro do nó
+        novoNo->esquerda = NULL;
+        novoNo->direita = NULL; // Como ele é um nó novo, ele não tem filhos (pelo menos não no momento da inserção dele).
+        novoNo->altura = 1; // Nó folha começa com altura 1
+        return novoNo;
+    }
+
+    // Decide pra qual lado do nó original vai o novo nó com o livro novo
+    if (livro->codigo < no->livro->codigo) { // Comparação com a esquerda
+        no->esquerda = inserirAuxiliar(no->esquerda, livro);
+    } else if (livro->codigo > no->livro->codigo) { // Comparação com a direita
+        no->direita = inserirAuxiliar(no->direita, livro);
+    } else {
+        printf("Codigo ja existente.\n");
+        return no; // Não permite chaves duplicadas
+    }
+
+    // Atualiza a altura do nó ancestral atual
+    no->altura = 1 + max(getAltura(no->esquerda), getAltura(no->direita));
+
+    // Obtém o fator de balanceamento para checar se desbalanceou
+    int balanceamento = getFatorBalanceamento(no);
+
+    // CASOS DE DESBALANCEAMENTO:
+    // Esquerda-Esquerda
+    if (balanceamento > 1 && livro->codigo < no->esquerda->livro->codigo)
+        return rotacaoDireita(no);
+
+    // Direita-Direita
+    if (balanceamento < -1 && livro->codigo > no->direita->livro->codigo)
+        return rotacaoEsquerda(no);
+
+    // Esquerda-Direita
+    if (balanceamento > 1 && livro->codigo > no->esquerda->livro->codigo) {
+        no->esquerda = rotacaoEsquerda(no->esquerda);
+        return rotacaoDireita(no);
+    }
+
+    // Direita-Esquerda
+    if (balanceamento < -1 && livro->codigo < no->direita->livro->codigo) {
+        no->direita = rotacaoDireita(no->direita);
+        return rotacaoEsquerda(no);
+    }
+
+    // Retorna o nó (inalterado se já tivesse balanceado)
+    return no;
+}
+
 
 void inserirLivroArvore(Arvore* arvore, Livro* livro){
-    //Complexidade mínima: O(1). Média: O(log n). Máxima: O(n).
+    //Complexidade mínima: O(1). Média: O(log n). Máxima: O(logn).
 
-    //Se fosse um programa real, seria legal pôr uma arvore balanceada pra diminuir a complexidade max pra log n, mas aumentaria mt o numero de linhas de codigo.
-
-
-    // TRECHO PARA A ALOCAÇÃO E DEFINIÇÃO DO NÓ
-    NoArvore *no = (NoArvore*) malloc(sizeof(NoArvore)); //Aloca o espaço pro novo nó
-
-    if (no == NULL) {
-        printf("Erro na alocação de memória.\n"); //Autoexplicativo
-        return ;
+    // Chama recursivamente a função de inserir auxiliar até chegar num nó folha para, então, inserir o novo nó
+    if (arvore != NULL) {
+        arvore->raiz = inserirLivroAuxiliar(arvore->raiz, livro);
     }
 
-    no->livro = livro; //Coloca o livro indicado na assinatura do método como o livro dentro do nó
-    no->esquerda = NULL;
-    no->direita = NULL; //Como ele é um nó novo, ele não tem filhos (pelo menos não no momento da inserção dele).
-
-    // TRECHO PARA INSERÇÃO NA ÁRVORE
-
-    //Caso a árvore esteja vazia:
-    if (arvore->raiz == NULL) {
-        arvore->raiz = no;
-        return;
-    }
-
-    //Caso já haja algum nó:
-    NoArvore* atual = arvore->raiz; //Ponteiro para ser deslocado dentro da árvore 
-
-    while (1) {//Faz em loop até achar ou não
-        //Complexidade mínima: O(1). Média: O(log n). Máxima: O(n).
-
-        //Código dos livros para comparação
-        int codigoInformado = livro->codigo;
-
-        int codigoDoNo = atual->livro->codigo;
-
-        //Comparação com a esquerda
-        if (codigoInformado < codigoDoNo) {
-
-            //Caso o espaço esteja livre
-            if (atual->esquerda == NULL) {
-                atual->esquerda = no;
-                return;
-            }
-
-            //Continua descendo
-            atual = atual->esquerda;
-        }
-
-        //Comparação com a direita
-        else if (codigoInformado > codigoDoNo) {
-
-            //Caso o espaço esteja livre
-            if (atual->direita == NULL) {
-                atual->direita = no;
-                return;
-            }
-
-            //Continua descendo
-            atual = atual->direita;
-        }
-
-        //Caso o codigo informado no livro seja repetido
-        else {
-            printf("Codigo ja existente.\n");
-            free(no);//Libera o nó
-            return;
-        }
-    }
-
-    return;
 }
 
 
 
 Livro* buscarLivroArvore(Arvore* arvore, int codigo){
-    //Complexidade mínima: O(1). Média: O(log n). Máxima: O(n).
+    //Complexidade máxima: O(log n). A busca é igual a de uma ABB comum, apesar de ter uma melhora no desempenho, dado que a AVL garante a árvore está balanceada, mantendo constante a complexidade O(log n) mesmo no pior caso.
 
 
     //Código dos livros para comparação
@@ -142,12 +134,17 @@ Livro* buscarLivroArvore(Arvore* arvore, int codigo){
 
 
 
-//FUNÇÕES PARA LISTAR LIVROS EXISTENTES
+// FUNÇÕES PARA LISTAR LIVROS EXISTENTES --------------------------------------------------------------------------
 
 
 //Usando uma função auxiliar para imprimir os Nós, e não a Arvore, já que a árvore inteira é só um ponteiro para a raiz.
 void ListarEmOrdem(NoArvore* no){
-    
+    // Complexidade: O(n), já que vai percorrer todos os nós, imprimindo-os um a um, fazendo, portanto, n operações de impressão. 
+
+    // Detalhe: uma vantagem da AVL aqui é que a complexidade de espaço é O(log n), já que a árvore está balanceada, e, portanto, ela tem o consumo de memória na recursão como sendo apenas O(log n) no pior caso.
+
+    // Imprimindo da seguinte maneira:  esquerda -> raiz -> direita
+
     //Se chegou ao final
     if (no == NULL){
         return;
@@ -165,6 +162,8 @@ void ListarEmOrdem(NoArvore* no){
 }
 
 void listarLivrosEmOrdem(Arvore* arvore){
+    // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
+
     //Dá o nó inicial e vai printando os outros
     ListarEmOrdem(arvore->raiz);
 }
@@ -173,12 +172,15 @@ void listarLivrosEmOrdem(Arvore* arvore){
 
 //Usando uma função auxiliar para imprimir os Nós, e não a Arvore, já que a árvore inteira é só um ponteiro para a raiz.
 void ListarPreOrdem(NoArvore* no){
-    
+    // Complexidade: O(n), já que vai percorrer todos os nós, imprimindo-os um a um, fazendo, portanto, n operações de impressão.
+
     //Se chegou ao final
     if (no == NULL){
         return;
     }
-    
+
+    // Imprimindo da seguinte maneira: raiz -> esquerda -> direita
+
     // Raiz
     printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
     
@@ -191,6 +193,8 @@ void ListarPreOrdem(NoArvore* no){
 }
 
 void listarLivrosPreOrdem(Arvore* arvore){
+    // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
+
     //Dá o nó inicial e vai printando os outros
     ListarPreOrdem(arvore->raiz);
 }
@@ -199,7 +203,10 @@ void listarLivrosPreOrdem(Arvore* arvore){
 
 //Usando uma função auxiliar para imprimir os Nós, e não a Arvore, já que a árvore inteira é só um ponteiro para a raiz.
 void ListarPosOrdem(NoArvore* no){
+    // Complexidade: O(n), já que vai percorrer todos os nós, imprimindo-os um a um, fazendo, portanto, n operações de impressão.
     
+    // Imprimindo da seguinte maneira:  esquerda -> direita -> raiz
+
     //Se chegou ao final
     if (no == NULL){
         return;
@@ -217,12 +224,15 @@ void ListarPosOrdem(NoArvore* no){
 }
 
 void listarLivrosPosOrdem(Arvore* arvore){
+    // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
+
     //Dá o nó inicial e vai printando os outros
     ListarPosOrdem(arvore->raiz);
 }
 
 
-//FUNÇÕES PARA CONTAR LIVROS EXISTENTES E INDENTIFICAR SUA ALTURA DA ARVORE
+//FUNÇÕES PARA CONTAR LIVROS EXISTENTES E INDENTIFICAR SUA ALTURA DA ARVORE -------------------------------------------------------------------
+
 
 //Usando uma função auxiliar para ir pegando os Nós, e não a Arvore, já que a árvore inteira é só um ponteiro para a raiz. Isso é pra manter a assinatura original pedida no arquivo ("contarLivros(Arvore* arvore)").
 int contarNaSubArvore(NoArvore* no){
@@ -269,7 +279,62 @@ int calcularAltura(NoArvore* no){
 int calcularAlturaArvore(Arvore* arvore){
     return calcularAltura(arvore->raiz);
 }
+
+// FUNÇÕES PARA O BALANCEAMENTO DA ÁRVORE --------------------------------------------------------------------------
+
+int getAlturaNo(NoArvore *NoArvore){
+    //Complexidade: O(1), já que faz uma verificação e retorna um valor simples, sem chamadas recursivas ou loops, o que lhe garante uma complexidade constante
+
+    if(NoArvore == NULL) return -1; // "-1" é pra dizer que ele não existe, já que, caso ele estivesse na raiz, aí seria 0.
+
+    return NoArvore -> altura;
+}
+
+int getFatorDeBalanceamento(NoArvore *NoArvore){
+    //Complexidade: O(1), já que faz uma verificação, uma operação de subtração e a chamada de duas funções não recursivas, o que lhe garante uma complexidade constante
+
+    if(NoArvore == NULL) return 0; // "0" porque, caso a árvore esteja vazia, ela não está desbalanceada para nenhum dos lados.
     
+    return (getAlturaNo(NoArvore->esquerda) - getAlturaNo(NoArvore->direita));
+}
+
+int max(int a, int b){
+    //Complexidade: O(1), já que somente realiza uma comparação e retorna
+    
+    return (a>b) ? a : b; // "O a é maior que o b ? se sim, retorne a, senão, retorne b."
+}
+
+NoArvore* rotacaoPraDireita(NoArvore *y){
+    //Complexidade: O(1), já que somente realiza atribuições simples e chamadas de funções não recursivas, garantindo uma complexidade constante
+
+    NoArvore* x = y->esquerda;
+    NoArvore* T2 = x->direita;
+
+    // Realiza a rotação
+    x->direita = y;
+    y->esquerda = T2;
+    // Coloca o 'x' como o nó raiz da sub árvore, a qual, anteriormente o 'y' era a raiz
+
+    // Atualiza as alturas
+    y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
+    x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
+}
+
+NoArvore* rotacaoPraEsquerda(NoArvore *x){
+    //Complexidade: O(1), já que somente realiza atribuições simples e chamadas de funções não recursivas, garantindo uma complexidade constante
+
+    NoArvore* y = x->direita;
+    NoArvore* T2 = y->esquerda;
+
+    // Realiza a rotação
+    y->esquerda = x;
+    x->direita = T2;
+    // Coloca o 'y' como o nó raiz da sub árvore, a qual, anteriormente o 'x' era a raiz
+
+    // Atualiza as novas alturas
+    x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
+    y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
+}
     
     
     
