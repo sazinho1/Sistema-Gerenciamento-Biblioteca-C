@@ -1,7 +1,7 @@
-#include "livro.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "livro.h"
 #include "arvore.h"
 
 Livro *criarLivro(

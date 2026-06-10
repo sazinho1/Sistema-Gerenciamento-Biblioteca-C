@@ -1,6 +1,6 @@
-#include "livro.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "livro.h"
 #include "arvore.h"
 #include "fila.h"
 

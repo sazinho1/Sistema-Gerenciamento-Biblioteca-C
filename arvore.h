@@ -12,7 +12,7 @@ typedef struct NoArvore {
     Livro* livro;
     struct NoArvore* esquerda;
     struct NoArvore* direita;
-    int altura // Guarda a altura do nó específico da árvore
+    int altura; // Guarda a altura do nó específico da árvore
     } NoArvore;
 
 // Definição do struct Arvore

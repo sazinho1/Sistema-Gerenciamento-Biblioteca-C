@@ -1,7 +1,7 @@
-#include "arvore.h"
-#include "livro.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "arvore.h"
+#include "livro.h"
 
 //FUNÇÕES PARA CRIAR ARVORE E INSERIR/BUSCAR NA ARVORE --------------------------------------------------------------------------
 
@@ -36,39 +36,39 @@ NoArvore* inserirLivroAuxiliar(NoArvore *no, Livro* livro){
 
     // Decide pra qual lado do nó original vai o novo nó com o livro novo
     if (livro->codigo < no->livro->codigo) { // Comparação com a esquerda
-        no->esquerda = inserirAuxiliar(no->esquerda, livro);
+        no->esquerda = inserirLivroAuxiliar(no->esquerda, livro);
     } else if (livro->codigo > no->livro->codigo) { // Comparação com a direita
-        no->direita = inserirAuxiliar(no->direita, livro);
+        no->direita = inserirLivroAuxiliar(no->direita, livro);
     } else {
         printf("Codigo ja existente.\n");
         return no; // Não permite chaves duplicadas
     }
 
     // Atualiza a altura do nó ancestral atual
-    no->altura = 1 + max(getAltura(no->esquerda), getAltura(no->direita));
+    no->altura = 1 + max(getAlturaNo(no->esquerda), getAlturaNo(no->direita));
 
     // Obtém o fator de balanceamento para checar se desbalanceou
-    int balanceamento = getFatorBalanceamento(no);
+    int balanceamento = getFatorDeBalanceamento(no);
 
     // CASOS DE DESBALANCEAMENTO:
     // Esquerda-Esquerda
     if (balanceamento > 1 && livro->codigo < no->esquerda->livro->codigo)
-        return rotacaoDireita(no);
+        return rotacaoPraDireita(no);
 
     // Direita-Direita
     if (balanceamento < -1 && livro->codigo > no->direita->livro->codigo)
-        return rotacaoEsquerda(no);
+        return rotacaoPraEsquerda(no);
 
     // Esquerda-Direita
     if (balanceamento > 1 && livro->codigo > no->esquerda->livro->codigo) {
-        no->esquerda = rotacaoEsquerda(no->esquerda);
-        return rotacaoDireita(no);
+        no->esquerda = rotacaoPraEsquerda(no->esquerda);
+        return rotacaoPraDireita(no);
     }
 
     // Direita-Esquerda
     if (balanceamento < -1 && livro->codigo < no->direita->livro->codigo) {
-        no->direita = rotacaoDireita(no->direita);
-        return rotacaoEsquerda(no);
+        no->direita = rotacaoPraDireita(no->direita);
+        return rotacaoPraEsquerda(no);
     }
 
     // Retorna o nó (inalterado se já tivesse balanceado)
@@ -244,7 +244,7 @@ int contarNaSubArvore(NoArvore* no){
     }
 
     //Soma, recursivamente, o numero de livros em cada sub arvore, até chegar no final e somar 0, ai sai voltando e somando tudo.
-    return 1 + contarLivros(no->esquerda) + contarLivros(no->direita);
+    return 1 + contarNaSubArvore(no->esquerda) + contarNaSubArvore(no->direita);
 }
 
 //Função principal pra "dar o start" na recursividade
