@@ -12,7 +12,7 @@ Arvore* criarArvore(){
 
     if (a == NULL) {
         printf("Erro na alocação de memória.\n");
-        return ;
+        return NULL;
     } //Verifica se não deu erro na alocação
 
     a -> raiz = NULL; //Começa vazia
