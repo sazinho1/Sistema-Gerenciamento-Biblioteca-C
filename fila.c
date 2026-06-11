@@ -9,7 +9,25 @@ Fila *criarFila()
     Fila *fila = (Fila *)malloc(sizeof(Fila));
     fila->inicio = NULL;
     fila->fim = NULL;
+    fila->tamanho = 0;
     return fila;
+}
+
+Reserva* criarReserva(char nome[], int codigo){
+    // Aloca a memória necessária pra reserva do livro
+    Reserva* reserva = malloc(sizeof(Reserva));
+
+    if(reserva == NULL){
+        printf("Erro ao criar a reserva. Tente novamente.");
+        return NULL;
+    }
+
+    // Muda os dados para serem os da reserva atual
+    strcpy(reserva->nomeUsuario, nome);
+    reserva->codigoLivro = codigo;
+
+    // Retorna a reserva pronta
+    return reserva;
 }
 
 void enfileirarReserva(Fila *fila, Reserva reserva)
@@ -33,6 +51,9 @@ void enfileirarReserva(Fila *fila, Reserva reserva)
         fila->fim->proximo = novoNo;
         fila->fim = novoNo;
     }
+
+    fila->tamanho++;
+    return;
 }
 
 Reserva desenfileirarReserva(Fila *fila)
@@ -55,6 +76,24 @@ Reserva desenfileirarReserva(Fila *fila)
 
     free(temp);
     return reservaDesenfileirada;
+}
+
+NoFila* procurarReserva(Fila* fila, int codigo){
+    // Procura se há uma reserva para esse livro específico por meio de uma busca linear
+
+    // Se a fila não estiver vazia
+    if(filaVazia == 0){
+        NoFila* noAux = fila->inicio;
+
+        for (int i = 0; i < fila->tamanho; i++)
+        {
+            if(noAux->reserva.codigoLivro == codigo){
+                return noAux;
+            }
+            noAux = noAux->proximo;
+        }
+        return NULL;
+    }
 }
 
 int filaVazia(Fila *fila)

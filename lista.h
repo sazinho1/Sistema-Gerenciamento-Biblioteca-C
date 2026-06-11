@@ -27,6 +27,8 @@ typedef struct Lista {
 
 Lista* criarLista ();
 
+Emprestimo* criarEmprestimo(char nome[], int codigo, char titulo[]);
+
 void inserirEmprestimo(Lista* lista , Emprestimo emprestimo);
 
 void listarEmprestimos(Lista* lista);

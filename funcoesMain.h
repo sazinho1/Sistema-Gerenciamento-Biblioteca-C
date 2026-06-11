@@ -20,7 +20,11 @@ void exibirMenu(); // Exibe o menu do sistema (interface)
 
 void escolherOpcaoMenu(ConjuntoSistema* ConjuntoSistema, int opcaoEscolhida); // Seleciona a opção do menu desejada e chama sua respectiva função
 
-int cadastrarLivro();
+int cadastrarLivro(); // Função para cadstrar um livro novo na arvore de livros
+
+void realizarEmprestimo(ConjuntoSistema* ConjuntoSistema, int codigo, char nome[]); // Função para fazer o empréstimo de um livro
+
+void realizarDevolucao(ConjuntoSistema* ConjuntoSistema, int codigo); // Função para fazer a devolução de um livro
 
 ConjuntoSistema* criarConjuntoSistema(); // Cria um conjunto dos TAD's básicos para o funcionamento do sistema dentro do struct "ConjuntoSistema", o qual contém uma árvore, uma fila e uma lista de empréstimos
 

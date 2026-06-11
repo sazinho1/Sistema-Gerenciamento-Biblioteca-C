@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> // Pra função "strcpy()"
 #include "livro.h"
 #include "arvore.h"
 #include "lista.h"
@@ -9,6 +10,24 @@ Lista *criarLista()
     Lista *lista = (Lista *)malloc(sizeof(Lista));
     lista->inicio = NULL;
     return lista;
+}
+
+Emprestimo* criarEmprestimo(char nome[], int codigo, char titulo[]){
+    // Aloca a memória necessária pro empréstimo do livro
+    Emprestimo* emprestimo = malloc(sizeof(Emprestimo));
+
+    if(emprestimo == NULL){
+        printf("Erro ao criar o empréstimo. Tente novamente.");
+        return NULL;
+    }
+
+    // Muda os dados para serem os do empréstimo atual
+    strcpy(emprestimo->nomeUsuario, nome);
+    emprestimo->codigoLivro = codigo;
+    strcpy(emprestimo->nomeUsuario, titulo);
+
+    // Retorna o empréstimo pronto
+    return emprestimo;
 }
 
 void inserirEmprestimo(Lista *lista, Emprestimo emprestimo)

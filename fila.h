@@ -19,6 +19,7 @@ typedef struct NoFila {
 typedef struct Fila {
     NoFila* inicio;
     NoFila* fim;
+    int tamanho; // Registra o tamanho da fila
 } Fila;
 
 //--------------------------------------------------------------------------
@@ -27,9 +28,13 @@ typedef struct Fila {
 
 Fila* criarFila ();
 
+Reserva* criarReserva(char nome[], int codigo); // Cria uma reserva com base no nome do usuario e no codigo do livro 
+
 void enfileirarReserva(Fila* fila , Reserva reserva);
 
 Reserva desenfileirarReserva(Fila* fila);
+
+NoFila* procurarReserva(Fila* fila, int codigo); // Procura se há uma reserva para esse livro específico
 
 int filaVazia(Fila* fila);
 
