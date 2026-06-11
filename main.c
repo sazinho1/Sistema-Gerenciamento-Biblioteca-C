@@ -22,6 +22,6 @@ int main(){
 
     printf("\nSaindo..."); // Caso escolha sair do programa, ele printa e fecha.
 
-    //encerrarSistema(ta faltando implementar);
+    encerrarSistema(ConjuntoSistema);
     return 0;
 }
