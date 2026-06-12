@@ -29,6 +29,8 @@ void inserirLivroArvore(Arvore* arvore , Livro* livro);
 
 Livro* buscarLivroArvore(Arvore* arvore , int codigo);
 
+NoArvore* removerLivroAuxiliar(NoArvore *NoArvore, int codigo);
+
 void removerLivroArvore(Arvore* arvore, int codigo);
 
 void listarLivrosEmOrdem(Arvore* arvore);

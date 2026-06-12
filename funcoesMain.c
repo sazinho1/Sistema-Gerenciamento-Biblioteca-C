@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fila.h"
 #include "lista.h"
 #include "arvore.h"
@@ -63,7 +64,7 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
         listarLivrosPreOrdem(ConjuntoSistema->ArvorePrincipal);
         break;
 
-    case 6: // Realizar empréstimo de livro
+    case 6: {// Realizar empréstimo de livro
 
         // Variável necessária para pegar o nome do user
         char nomeUsuario[100];
@@ -74,11 +75,12 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
 
         // Pega o nome do usuario que quer pegar o livro
         printf("Digite o nome do usuario a alugar o livro: \n");
-        scanf("%s\n", &nomeUsuario);
+        scanf("%s\n",&nomeUsuario);
 
         // Chama a função que realiza esse empréstimo
-        realizarEmpréstimo(ConjuntoSistema, codigoLivroEscolhido, nomeUsuario);
+        realizarEmprestimo(ConjuntoSistema, codigoLivroEscolhido, nomeUsuario);
         break;
+    }
 
     case 7: // Devolver livro
 
@@ -140,9 +142,11 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
 
     printf("Digite o titulo do livro a ser inserido: \n");
     scanf("%s", &titulo);
+    scanf("");
 
     printf("Digite o autor/a autora do livro a ser inserido: \n");
     scanf("%s", &autor);
+    scanf("");
 
     printf("Digite o ano de publicacao do livro a ser inserido: \n");
     scanf("%d", &ano);
@@ -166,7 +170,7 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     return 1;
 }
 
-void realizarEmpréstimo(ConjuntoSistema *ConjuntoSistema, int codigo, char nome[])
+void realizarEmprestimo(ConjuntoSistema *ConjuntoSistema, int codigo, char nome[])
 {
     // Faz o empréstimo do livro, retornando um aviso de erro, no caso da falha e uma confirmação de sucesso, caso ocorra como esperado
 

@@ -133,6 +133,113 @@ Livro* buscarLivroArvore(Arvore* arvore, int codigo){
 }
 
 
+NoArvore* acharMenorNo(NoArvore* no){
+    //Função auxiliar pra achar o menor nó a partir de um específico (que pode ser a raiz da árvore ou não)
+    // Complexidade: O(n), já que, como ele percorre só andando para a esquerda, é como se ele estivesse
+    // fazendo uma busca numa lista encadeada, a qual tem complexidade O(n).
+
+    // Coloca o nó auxiliar (atual) como sendo o primeiro
+    NoArvore* atual = no;
+
+    // Enquanto o nó auxiliar não é o último, passa 1 nó pra frente (atual vira o nó da sua esquerda) 
+    // e faz a verificação denovo até chegar no último, onde retorna o atual
+    while(atual->esquerda != NULL){
+        atual = atual->esquerda;
+    }
+    return atual;
+}
+
+NoArvore* removerLivroAuxiliar(NoArvore* raiz, int codigo) {
+    // Função recursiva para remover e balancear
+    // Caso a árvore esteja vazia
+    if (raiz == NULL)
+        return raiz;
+
+    // Desce na árvore pra achar o nó a ser removido
+    if (codigo < raiz->livro->codigo)
+        raiz->esquerda = removerLivroAuxiliar(raiz->esquerda, codigo);
+    else if (codigo > raiz->livro->codigo)
+        raiz->direita = removerLivroAuxiliar(raiz->direita, codigo);
+    
+    // Quando acha o nó, cai nesse else e continua
+    else {
+        // Caso o nó tenha apenas um filho ou nenhum filho
+        if ((raiz->esquerda == NULL) || (raiz->direita == NULL)) {
+
+            NoArvore* aux = raiz->esquerda ? raiz->esquerda : raiz->direita; // Pega o nó q não é NULL
+
+            // Sem filhos
+            if (aux == NULL) {
+                aux = raiz;
+                raiz = NULL;
+            }
+
+            else { // Caso tenha um filho, copia o conteúdo do filho para o nó atual
+                *raiz = *aux; 
+            }
+
+            free(aux); // Libera a memória do nó antigo
+        }
+
+        // Caso ele seja um nó com dois filhos
+        else {
+
+            // Pega o sucessor (menor nó da subárvore direita)
+            NoArvore* aux = acharMenorNo(raiz->direita);
+
+            // Copia os dados do sucessor para o nó atual
+            raiz->livro = aux->livro;
+
+            // Deleta o sucessor lá de baixo
+            raiz->direita = removerLivroAuxiliar(raiz->direita, aux->livro->codigo);
+        }
+    }
+
+    // Se a árvore só tinha um nó, então retorna nulo
+    if (raiz == NULL)
+        return raiz;
+
+    // Atualiza a altura do nó atual
+    raiz->altura = 1 + max(getAlturaNo(raiz->esquerda), getAlturaNo(raiz->direita));
+
+    // Pega o fator de balanceamento
+    // Lembrando que o balanceamento é (altura nó mais embaixo da esquerda) - (altura nó mais embaixo da direita)
+    int balanceamento = getFatorDeBalanceamento(raiz);
+
+
+    // Balanceia, fazendo a rotação adequada para cada caso:
+    
+    // Caso Esquerda-Esquerda
+    if (balanceamento > 1 && getFatorDeBalanceamento(raiz->esquerda) >= 0)
+        return rotacaoPraDireita(raiz);
+        
+    // Caso Direita-Direita
+    if (balanceamento < -1 && getFatorDeBalanceamento(raiz->direita) <= 0)
+    return rotacaoPraEsquerda(raiz);
+        
+    // Caso Esquerda-Direita
+    if (balanceamento > 1 && getFatorDeBalanceamento(raiz->esquerda) < 0) {
+        raiz->esquerda = rotacaoPraEsquerda(raiz->esquerda);
+        return rotacaoPraDireita(raiz);
+    }
+        
+    // Caso Direita-Esquerda
+    if (balanceamento < -1 && getFatorDeBalanceamento(raiz->direita) > 0) {
+        raiz->direita = rotacaoPraDireita(raiz->direita);
+        return rotacaoPraEsquerda(raiz);
+    }
+
+    return raiz;
+}
+
+// A função principal que chama a recursão
+void removerLivroArvore(Arvore* arvore, int codigo) {
+    if (arvore != NULL && arvore->raiz != NULL) {
+        arvore->raiz = removerLivroAuxiliar(arvore->raiz, codigo);
+    } else {
+        printf("A arvore esta vazia ou nao foi inicializada.\n");
+    }
+}
 
 // FUNÇÕES PARA LISTAR LIVROS EXISTENTES --------------------------------------------------------------------------
 
