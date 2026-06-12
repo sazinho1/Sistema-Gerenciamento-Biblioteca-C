@@ -140,13 +140,11 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     printf("Digite o codigo do livro a ser inserido: \n");
     scanf("%d", &codigo);
 
-    printf("Digite o titulo do livro a ser inserido: \n");
-    scanf("%s", &titulo);
-    scanf("");
+    printf("Digite o titulo do livro a ser inserido:\n");
+    scanf(" %[^\n]", titulo); // O espaço antes do % limpa o buffer do \n deixado pelo código
 
-    printf("Digite o autor/a autora do livro a ser inserido: \n");
-    scanf("%s", &autor);
-    scanf("");
+    printf("Digite o autor/a autora do livro a ser inserido:\n");
+    scanf(" %[^\n]", autor);
 
     printf("Digite o ano de publicacao do livro a ser inserido: \n");
     scanf("%d", &ano);
@@ -269,34 +267,34 @@ void realizarDevolucao(ConjuntoSistema* ConjuntoSistema, int codigo)
 ConjuntoSistema *criarConjuntoSistema()
 {
     // Aloca a memória para o cojunto dos TAD's essenciais do sistema
-    ConjuntoSistema *ConjuntoSistema = malloc(sizeof(ConjuntoSistema));
+    ConjuntoSistema *conjunto = malloc(sizeof(ConjuntoSistema));
 
-    ConjuntoSistema->ArvorePrincipal = criarArvore();
-    ConjuntoSistema->FilaPrincipal = criarFila();
-    ConjuntoSistema->ListaPrincipal = criarLista();
+    conjunto->ArvorePrincipal = criarArvore();
+    conjunto->FilaPrincipal = criarFila();
+    conjunto->ListaPrincipal = criarLista();
 
     if (
-        ConjuntoSistema->ArvorePrincipal == NULL ||
-        ConjuntoSistema->FilaPrincipal == NULL ||
-        ConjuntoSistema->ListaPrincipal == NULL)
+        conjunto->ArvorePrincipal == NULL ||
+        conjunto->FilaPrincipal == NULL ||
+        conjunto->ListaPrincipal == NULL)
         return NULL;
 
-    return ConjuntoSistema;
+    return conjunto;
 }
 
 ConjuntoSistema *inicializarSistema()
 {
     printf("Inicializando o sistema...\n");
 
-    ConjuntoSistema *ConjuntoSistema = criarConjuntoSistema();
+    ConjuntoSistema *conjunto = criarConjuntoSistema();
 
-    if (ConjuntoSistema == NULL)
+    if (conjunto == NULL)
     {
         printf("ERRO NA INCIALIZAÇÃO. POR FAVOR, REINCIE O SISTEMA");
         return NULL;
     }
 
-    return ConjuntoSistema;
+    return conjunto;
 }
 
 // FUNÇÕES PARA LIBERAR A MEMÓRIA DO SISTEMA AO SAIR --------------------------------------------------------------------------
