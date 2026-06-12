@@ -29,7 +29,7 @@ void exibirMenu()
 }
 
 // Função para escolher a opção a ser realizada no menu principal
-void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
+void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 {
     // Variáveis necessárias para algumas opções do menu:
     int codigoLivroEscolhido; // Opção 2
@@ -38,30 +38,30 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
     {
     case 1: // Cadastrar Novo Livro
 
-        cadastrarLivro(ConjuntoSistema->ArvorePrincipal);
+        cadastrarLivro(conjunto->ArvorePrincipal);
         break;
 
     case 2: // Buscar livro por código
 
         printf("Digite o codigo do livro: \n");
         scanf("%d\n", &codigoLivroEscolhido);
-        Livro *livro = buscarLivroArvore(ConjuntoSistema->ArvorePrincipal, codigoLivroEscolhido); // Faz a busca do livro na árvore
+        Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigoLivroEscolhido); // Faz a busca do livro na árvore
         exibirLivro(livro);                                                                       // Mosta o livro
         break;
 
     case 3: // Listar livros em ordem crescente de codigo
 
-        listarLivrosEmOrdem(ConjuntoSistema->ArvorePrincipal);
+        listarLivrosEmOrdem(conjunto->ArvorePrincipal);
         break;
 
     case 4: // Listar livros em pre ordem
 
-        listarLivrosPosOrdem(ConjuntoSistema->ArvorePrincipal);
+        listarLivrosPosOrdem(conjunto->ArvorePrincipal);
         break;
 
     case 5: // Listar livros em pós ordem
 
-        listarLivrosPreOrdem(ConjuntoSistema->ArvorePrincipal);
+        listarLivrosPreOrdem(conjunto->ArvorePrincipal);
         break;
 
     case 6: {// Realizar empréstimo de livro
@@ -78,7 +78,7 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
         scanf("%s\n",&nomeUsuario);
 
         // Chama a função que realiza esse empréstimo
-        realizarEmprestimo(ConjuntoSistema, codigoLivroEscolhido, nomeUsuario);
+        realizarEmprestimo(conjunto, codigoLivroEscolhido, nomeUsuario);
         break;
     }
 
@@ -89,7 +89,7 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
         scanf("%d\n", &codigoLivroEscolhido);
 
         // Chama a função que realiza essa devolução
-        realizarDevolucao(ConjuntoSistema, codigoLivroEscolhido);
+        realizarDevolucao(conjunto, codigoLivroEscolhido);
 
         break;
 
@@ -97,29 +97,29 @@ void escolherOpcaoMenu(ConjuntoSistema *ConjuntoSistema, int opcaoEscolhida)
 
         // Quebra a linha e printa as reservas
         printf("\n");
-        exibirReservas(ConjuntoSistema->FilaPrincipal);
+        exibirReservas(conjunto->FilaPrincipal);
         break;
 
     case 9: // Exibir histórico de empréstimos
 
         // Quebra a linha e printa os empréstimos
         printf("\n");
-        listarEmprestimos(ConjuntoSistema->ListaPrincipal);
+        listarEmprestimos(conjunto->ListaPrincipal);
         break;
 
     case 10: // Exibir quantidade de livros cadastrados
 
-        printf("A quantidade de livros cadastrados (ou nos da arvore) eh %d", contarLivros(ConjuntoSistema->ArvorePrincipal));
+        printf("A quantidade de livros cadastrados (ou nos da arvore) eh %d", contarLivros(conjunto->ArvorePrincipal));
         break;
 
     case 11: // Exibir altura da árvore
 
-        printf("A altura da arvore eh %d", calcularAlturaArvore(ConjuntoSistema->ArvorePrincipal));
+        printf("A altura da arvore eh %d", calcularAlturaArvore(conjunto->ArvorePrincipal));
         break;
 
     case 0: // Sair
 
-        encerrarSistema(ConjuntoSistema);
+        encerrarSistema(conjunto);
         break;
 
     default:
@@ -168,12 +168,12 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     return 1;
 }
 
-void realizarEmprestimo(ConjuntoSistema *ConjuntoSistema, int codigo, char nome[])
+void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
 {
     // Faz o empréstimo do livro, retornando um aviso de erro, no caso da falha e uma confirmação de sucesso, caso ocorra como esperado
 
     // Coloca um ponteiro pra ser o livro buscado
-    Livro *livro = buscarLivroArvore(ConjuntoSistema->ArvorePrincipal, codigo);
+    Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigo);
 
     // Verifica se o livro existe
     if (livro != NULL)
@@ -202,18 +202,18 @@ void realizarEmprestimo(ConjuntoSistema *ConjuntoSistema, int codigo, char nome[
                     return;
 
                 // Enfileira a reserva
-                enfileirarReserva(ConjuntoSistema->FilaPrincipal, *reserva);
+                enfileirarReserva(conjunto->FilaPrincipal, *reserva);
             }
         }
 
         // Caso o livro exista, remove uma unidade dele na árvore
-        removerLivroArvore(ConjuntoSistema->ArvorePrincipal, codigo);
+        removerLivroArvore(conjunto->ArvorePrincipal, codigo);
 
         // Cria o empréstimo e pega o ponteiro para ele na variavel "Emprestimo"
         Emprestimo *emprestimo = criarEmprestimo(nome, codigo, livro->titulo);
 
         // Insere o emprestimo na lista de emprestimos
-        inserirEmprestimo(ConjuntoSistema->ListaPrincipal, *emprestimo);
+        inserirEmprestimo(conjunto->ListaPrincipal, *emprestimo);
 
         // Retorna a mensagem para informar o sucesso
         printf("\nEmpréstimo realizado com sucesso!\n");
@@ -224,12 +224,12 @@ void realizarEmprestimo(ConjuntoSistema *ConjuntoSistema, int codigo, char nome[
     return;
 }
 
-void realizarDevolucao(ConjuntoSistema* ConjuntoSistema, int codigo)
+void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
 {
     // Faz a devolução do livro, retornando um aviso de erro, no caso do livro não existir e uma confirmação de sucesso, caso ocorra como esperado
 
     // Coloca um ponteiro pra ser o livro buscado
-    Livro *livro = buscarLivroArvore(ConjuntoSistema->ArvorePrincipal, codigo);
+    Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigo);
 
      // Verifica se o livro existe
     if (livro != NULL)
@@ -237,19 +237,19 @@ void realizarDevolucao(ConjuntoSistema* ConjuntoSistema, int codigo)
         livro->quantidadeDisponivel++; // Aumenta em 1 a quantidade disponível desse livro
     
         // Pega o nó da reserva que tem para o livro devolvido, caso exista
-        NoFila* reservaPossivel = procurarReserva(ConjuntoSistema->FilaPrincipal, codigo);
+        NoFila* reservaPossivel = procurarReserva(conjunto->FilaPrincipal, codigo);
 
         // Caso tenha alguma reserva para um exemplar do livro requisitado
         if(reservaPossivel != NULL){
 
             // Printa a lista de reservas
-            exibirReservas(ConjuntoSistema->FilaPrincipal);
+            exibirReservas(conjunto->FilaPrincipal);
 
             // Avisa ao usuário que havia alguém esperando um livro desse
             printf("\nTem um usuário na fila esperando para receber esse livro! Obrigado por devolvê-lo.\n");
 
             // Fecha a reserva e abre um empréstimo para quem estava esperando
-            desenfileirarReserva(ConjuntoSistema->FilaPrincipal);
+            desenfileirarReserva(conjunto->FilaPrincipal);
             criarEmprestimo(reservaPossivel->reserva.nomeUsuario, codigo, livro->titulo);
 
         }    
@@ -267,7 +267,7 @@ void realizarDevolucao(ConjuntoSistema* ConjuntoSistema, int codigo)
 ConjuntoSistema *criarConjuntoSistema()
 {
     // Aloca a memória para o cojunto dos TAD's essenciais do sistema
-    ConjuntoSistema *conjunto = malloc(sizeof(ConjuntoSistema));
+    ConjuntoSistema* conjunto = (ConjuntoSistema*) malloc(sizeof(struct ConjuntoSistema));
 
     conjunto->ArvorePrincipal = criarArvore();
     conjunto->FilaPrincipal = criarFila();
@@ -284,7 +284,7 @@ ConjuntoSistema *criarConjuntoSistema()
 
 ConjuntoSistema *inicializarSistema()
 {
-    printf("Inicializando o sistema...\n");
+    printf("Inicializando o sistema...\n\n");
 
     ConjuntoSistema *conjunto = criarConjuntoSistema();
 
@@ -293,6 +293,8 @@ ConjuntoSistema *inicializarSistema()
         printf("ERRO NA INCIALIZAÇÃO. POR FAVOR, REINCIE O SISTEMA");
         return NULL;
     }
+
+    printf("Sistema inicializado com sucesso!\n\n");
 
     return conjunto;
 }
@@ -360,16 +362,16 @@ void limparFila(Fila *fila)
     }
 }
 
-void encerrarSistema(ConjuntoSistema *ConjuntoSistema)
+void encerrarSistema(ConjuntoSistema *conjunto)
 {
 
-    // Libera a memória alocada na execução com as funções auxiliares, caso não tenha dado erro na alocação do "ConjuntoSistema" na inicialização
-    if (ConjuntoSistema != NULL)
+    // Libera a memória alocada na execução com as funções auxiliares, caso não tenha dado erro na alocação do "conjunto" na inicialização
+    if (conjunto != NULL)
     {
-        limparArvore(ConjuntoSistema->ArvorePrincipal);
-        limparFila(ConjuntoSistema->FilaPrincipal);
-        limparLista(ConjuntoSistema->ListaPrincipal);
+        limparArvore(conjunto->ArvorePrincipal);
+        limparFila(conjunto->FilaPrincipal);
+        limparLista(conjunto->ListaPrincipal);
 
-        free(ConjuntoSistema);
+        free(conjunto);
     }
 }

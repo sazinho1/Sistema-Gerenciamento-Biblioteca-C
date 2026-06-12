@@ -11,6 +11,9 @@ int main(){
     
     do{
 
+        // Printa o menu
+        exibirMenu();
+
         // O scanf retorna 1 se conseguiu ler 1 variável corretamente.
         // Se retornar 0, significa que o user digitou algo errado (como uma letra, por exemplo).
         if (scanf("%d", &opcao) != 1) {
