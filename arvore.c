@@ -254,6 +254,7 @@ void ListarEmOrdem(NoArvore* no){
 
     //Se chegou ao final
     if (no == NULL){
+        printf("\nSem nenhum livro no sistema.\n");
         return;
     }
     
