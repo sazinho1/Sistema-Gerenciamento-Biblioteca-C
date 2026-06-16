@@ -1,40 +1,40 @@
 #include <stdio.h>
-
-void exibirMenu(){
-    printf("----------SISTEMA DE GERENCIAMENTO DA BIBLIOTECA ED----------\n\n");
-    
-    printf(
-        "Selecione uma das opcoes a seguir:\n\n"
-        "1. Cadastrar novo livro\n"
-        "2. Buscar livro por codigo\n"
-        "3. Listar livros em ordem crescente de codigo\n"
-        "4. Listar livros em pre-ordem\n"
-        "5. Listar livros em pos-ordem\n"
-        "6. Realizar emprestimo de livro\n"
-        "7. Devolver livro\n"
-        "8. Exibir fila de reservas\n"
-        "9. Exibir historico de emprestimos\n"
-        "10. Exibir quantidade de livros cadastrados\n"
-        "11. Exibir altura da arvore\n"
-        "0. Sair\n\n"
-    );
-
-        // Não consegui colocar tudo em um unico printf porque o compilador tava bugando
-}
+#include "fila.h"
+#include "lista.h"
+#include "arvore.h"
+#include "funcoesMain.h"
 
 int main(){
+    ConjuntoSistema* conjunto = inicializarSistema();
+    
     int opcao; // Declaração da variavel para escolha da ação a ser tomada
     
     do{
-    exibirMenu();
 
-    scanf(""); // Para ele não pegar o /n do printf do "exibirMenu" como input sem querer.
-    scanf("%d", &opcao);
-    
-    printf("Opcao escolida: %d\n", opcao);
+        // Printa o menu
+        exibirMenu();
+
+        // O scanf retorna 1 se conseguiu ler 1 variável corretamente.
+        // Se retornar 0, significa que o user digitou algo errado (como uma letra, por exemplo).
+        if (scanf("%d", &opcao) != 1) {
+            
+            printf("\nERRO: Entrada invalida. Por favor, digite um numero.\n\n");
+            
+            // limpa o buffer da seguinte forma: lê e descarta todos os caracteres até achar o Enter (\n)
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF); // EOF é "End Of File", isto é, caso o user dê cntrl + z, que envia um sinal de EOF forçado e o sistema    entraria num loop e quebraria.
+            
+            // Atribui um valor inválido para forçar o menu a repetir sem entrar em nenhum 'case'
+            opcao = -1; 
+            continue; // Pula direto para o final do 'do-while' e recomeça o loop
+        }
+
+    escolherOpcaoMenu(conjunto, opcao);
+
     } while (opcao != 0);
 
-    printf("\nSaindo...");
+    printf("\nSaindo..."); // Caso escolha sair do programa, ele printa e fecha.
 
+    encerrarSistema(conjunto);
     return 0;
 }
