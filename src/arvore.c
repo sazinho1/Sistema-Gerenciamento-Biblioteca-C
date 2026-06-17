@@ -254,7 +254,6 @@ void ListarEmOrdem(NoArvore* no){
 
     //Se chegou ao final
     if (no == NULL){
-        printf("\nSem nenhum livro no sistema.\n");
         return;
     }
     
@@ -262,7 +261,7 @@ void ListarEmOrdem(NoArvore* no){
     ListarEmOrdem(no->esquerda);
     
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
     //Recursão a direita
     ListarEmOrdem(no->direita);
@@ -273,7 +272,9 @@ void listarLivrosEmOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("\n----------------------------------------\n");
     ListarEmOrdem(arvore->raiz);
+    printf("\n----------------------------------------\n");
 }
 
 
@@ -290,7 +291,7 @@ void ListarPreOrdem(NoArvore* no){
     // Imprimindo da seguinte maneira: raiz -> esquerda -> direita
 
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
     //Recursão a esquerda
     ListarEmOrdem(no->esquerda);
@@ -304,7 +305,9 @@ void listarLivrosPreOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("\n----------------------------------------\n");
     ListarPreOrdem(arvore->raiz);
+    printf("\n----------------------------------------\n");
 }
 
 
@@ -327,7 +330,7 @@ void ListarPosOrdem(NoArvore* no){
     ListarEmOrdem(no->direita);
     
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
 }
 
@@ -335,7 +338,9 @@ void listarLivrosPosOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("\n----------------------------------------\n");
     ListarPosOrdem(arvore->raiz);
+    printf("\n----------------------------------------\n");
 }
 
 
@@ -357,7 +362,7 @@ int contarNaSubArvore(NoArvore* no){
 
 //Função principal pra "dar o start" na recursividade
 int contarLivros(Arvore* arvore){
-    contarNaSubArvore(arvore->raiz);
+    return contarNaSubArvore(arvore->raiz);
 }
     
 
@@ -426,6 +431,8 @@ NoArvore* rotacaoPraDireita(NoArvore *y){
     // Atualiza as alturas
     y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
     x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
+
+    return x;
 }
 
 NoArvore* rotacaoPraEsquerda(NoArvore *x){
@@ -442,6 +449,8 @@ NoArvore* rotacaoPraEsquerda(NoArvore *x){
     // Atualiza as novas alturas
     x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
     y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
+
+    return y;
 }
     
     

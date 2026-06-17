@@ -30,7 +30,7 @@ Emprestimo *criarEmprestimo(char nome[], int codigo, char titulo[])
     // Verificação de segurança caso o sistema fique sem memória RAM
     if (emprestimo == NULL)
     {
-        printf("Erro ao criar o empréstimo. Tente novamente.\n");
+        printf("Erro ao criar o emprestimo. Tente novamente.\n");
         return NULL;
     }
 
@@ -96,10 +96,11 @@ void listarEmprestimos(Lista *lista)
     // Loop que caminha pela lista imprimindo os dados até chegar ao fim (NULL)
     while (atual != NULL)
     {
+        
+        printf("\n-------------------------\n");
         printf("Usuario: %s\n", atual->emprestimo.nomeUsuario);
         printf("Codigo do Livro: %d\n", atual->emprestimo.codigoLivro);
         printf("Titulo do Livro: %s\n", atual->emprestimo.tituloLivro);
-        printf("-------------------------\n");
         atual = atual->proximo; // Avança para o próximo nó
     }
 }

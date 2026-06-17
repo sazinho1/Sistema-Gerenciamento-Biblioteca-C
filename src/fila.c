@@ -53,7 +53,7 @@ void enfileirarReserva(Fila *fila, Reserva reserva)
     NoFila *novoNo = (NoFila *)malloc(sizeof(NoFila));
     if (novoNo == NULL)
     {
-        printf("Erro ao alocar memória para novo nó da fila.\n");
+        printf("Erro ao alocar memoria para novo no da fila.\n");
         return;
     }
     novoNo->reserva = reserva;
@@ -82,7 +82,7 @@ Reserva desenfileirarReserva(Fila *fila)
     // Tratamento de erro caso tentem remover algo de uma fila sem elementos
     if (filaVazia(fila))
     {
-        printf("Fila vazia. Não é possível desenfileirar.\n");
+        printf("Fila vazia. Não eh possivel desenfileirar.\n");
         Reserva reservaVazia = {"", -1}; // Retorna uma reserva com dados inválidos para indicar que a operação falhou
         return reservaVazia;
     }

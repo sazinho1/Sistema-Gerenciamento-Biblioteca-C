@@ -45,16 +45,20 @@ void exibirLivro(Livro *livro)
     // Verificação para evitar ler um ponteiro inválido
     if (livro == NULL)
     {
-        printf("Livro nao encontrado ou inexistente.\n");
+        printf("\nLivro nao encontrado ou inexistente!\n");
         return;
     }
 
-    printf("Código: %d\n", livro->codigo);
-    printf("Título: %s\n", livro->titulo);
+    // Imprime as estatísticas do livro de forma organizada
+    printf("----------------------------------------------------------\n");
+    printf("Codigo: %d\n", livro->codigo);
+    printf("Titulo: %s\n", livro->titulo);
     printf("Autor: %s\n", livro->autor);
     printf("Ano: %d\n", livro->ano);
     printf("Quantidade Total: %d\n", livro->quantidadeTotal);
-    printf("Quantidade Disponível: %d\n", livro->quantidadeDisponivel);
+    printf("Quantidade Disponivel para Emprestimo: %d\n", livro->quantidadeDisponivel);
+    printf("----------------------------------------------------------\n");
+
 }
 
 /* * Retorna o código do livro informado.

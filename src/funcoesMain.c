@@ -43,10 +43,10 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
     case 2: // Buscar livro por código
 
-        printf("Digite o codigo do livro: \n");
-        scanf("%d\n", &codigoLivroEscolhido);
+        printf("\nDigite o codigo do livro: \n");
+        scanf("%d", &codigoLivroEscolhido);
         Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigoLivroEscolhido); // Faz a busca do livro na árvore
-        exibirLivro(livro);                                                                       // Mosta o livro
+        exibirLivro(livro); // Mosta o livro
         break;
 
     case 3: // Listar livros em ordem crescente de codigo
@@ -71,11 +71,11 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
         // Pega o codigo do livro a ser emprestado
         printf("Digite o codigo do livro: \n");
-        scanf("%d\n", &codigoLivroEscolhido);
+        scanf("%d", &codigoLivroEscolhido);
 
         // Pega o nome do usuario que quer pegar o livro
         printf("Digite o nome do usuario a alugar o livro: \n");
-        scanf("%s\n",&nomeUsuario);
+        scanf(" %[^\n]", nomeUsuario); 
 
         // Chama a função que realiza esse empréstimo
         realizarEmprestimo(conjunto, codigoLivroEscolhido, nomeUsuario);
@@ -137,11 +137,12 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     int quantidadeTotal;
 
     // Pega cada dado do livro
-    printf("Digite o codigo do livro a ser inserido: \n");
+    printf("\nDigite o codigo do livro a ser inserido: \n");
     scanf("%d", &codigo);
 
     printf("Digite o titulo do livro a ser inserido:\n");
-    scanf(" %[^\n]", titulo); // O espaço antes do % limpa o buffer do \n deixado pelo código
+    scanf(" %[^\n]", titulo); // Lê até o \n deixado pelo Enter
+    // O espaço antes do % limpa o buffer do \n deixado pelo código
 
     printf("Digite o autor/a autora do livro a ser inserido:\n");
     scanf(" %[^\n]", autor);
@@ -184,9 +185,9 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         {
             int escolha;
 
-            printf("Não existe nenhum exemplar desse livro disponível agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Não\n");
+            printf("\nNao existe nenhum exemplar desse livro disponivel agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Nao\n\n");
 
-            scanf("%d\n", &escolha);
+            scanf("%d", &escolha);
 
             // Caso não queira a reserva, retorna
             if (escolha == 0)
@@ -201,13 +202,15 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
                 if (reserva == NULL)
                     return;
 
-                // Enfileira a reserva
+                // Enfileira a reserva e retorna
                 enfileirarReserva(conjunto->FilaPrincipal, *reserva);
+                printf("\nReserva criada com sucesso!\n");
+                return;
             }
         }
 
         // Caso o livro exista, remove uma unidade dele na árvore
-        removerLivroArvore(conjunto->ArvorePrincipal, codigo);
+        livro->quantidadeDisponivel--;
 
         // Cria o empréstimo e pega o ponteiro para ele na variavel "Emprestimo"
         Emprestimo *emprestimo = criarEmprestimo(nome, codigo, livro->titulo);
@@ -216,11 +219,11 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         inserirEmprestimo(conjunto->ListaPrincipal, *emprestimo);
 
         // Retorna a mensagem para informar o sucesso
-        printf("\nEmpréstimo realizado com sucesso!\n");
+        printf("\nEmprestimo realizado com sucesso!\n");
     }
 
     // Caso o livro não exista, retorna o aviso do erro
-    printf("\nERRO: LIVRO NÃO EXISTE\n");
+    if(livro == NULL) printf("\nERRO: LIVRO NAO EXISTE\n");
     return;
 }
 
@@ -246,7 +249,7 @@ void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
             exibirReservas(conjunto->FilaPrincipal);
 
             // Avisa ao usuário que havia alguém esperando um livro desse
-            printf("\nTem um usuário na fila esperando para receber esse livro! Obrigado por devolvê-lo.\n");
+            printf("\nTem um usuário na fila esperando para receber esse livro! Obrigado por devolve-lo.\n");
 
             // Fecha a reserva e abre um empréstimo para quem estava esperando
             desenfileirarReserva(conjunto->FilaPrincipal);
@@ -255,11 +258,11 @@ void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
         }    
         
         // Caso o livro seja devolvido e não tenha nenhum usuário esperando por um exemplar
-        printf("\nObrigado pela devolução! Volte sempre.\n");
+        printf("\nObrigado pela devolucaoo! Volte sempre.\n");
 
     }
 
-    printf("\nERRO: LIVRO NÃO EXISTE\n");
+    printf("\nERRO: LIVRO NAO EXISTE\n");
     return;
 
 }
