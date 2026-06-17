@@ -254,7 +254,6 @@ void ListarEmOrdem(NoArvore* no){
 
     //Se chegou ao final
     if (no == NULL){
-        printf("\nSem nenhum livro no sistema.\n");
         return;
     }
     
@@ -262,7 +261,7 @@ void ListarEmOrdem(NoArvore* no){
     ListarEmOrdem(no->esquerda);
     
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
     //Recursão a direita
     ListarEmOrdem(no->direita);
@@ -290,7 +289,7 @@ void ListarPreOrdem(NoArvore* no){
     // Imprimindo da seguinte maneira: raiz -> esquerda -> direita
 
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
     //Recursão a esquerda
     ListarEmOrdem(no->esquerda);
@@ -327,7 +326,7 @@ void ListarPosOrdem(NoArvore* no){
     ListarEmOrdem(no->direita);
     
     // Raiz
-    printf("%s / %d\n", no->livro->titulo, no->livro->codigo);
+    printf("\n%s / %d\n", no->livro->titulo, no->livro->codigo);
     
 }
 
