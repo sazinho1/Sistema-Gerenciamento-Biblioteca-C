@@ -208,7 +208,7 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         }
 
         // Caso o livro exista, remove uma unidade dele na árvore
-        removerLivroArvore(conjunto->ArvorePrincipal, codigo);
+        livro->quantidadeDisponivel--;
 
         // Cria o empréstimo e pega o ponteiro para ele na variavel "Emprestimo"
         Emprestimo *emprestimo = criarEmprestimo(nome, codigo, livro->titulo);
