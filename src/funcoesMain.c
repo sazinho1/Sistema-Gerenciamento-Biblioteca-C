@@ -204,6 +204,7 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
 
                 // Enfileira a reserva e retorna
                 enfileirarReserva(conjunto->FilaPrincipal, *reserva);
+                printf("Reserva criada com sucesso!");
                 return;
             }
         }
