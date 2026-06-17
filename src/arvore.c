@@ -272,7 +272,9 @@ void listarLivrosEmOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("----------------------------------------\n");
     ListarEmOrdem(arvore->raiz);
+    printf("----------------------------------------\n");
 }
 
 
@@ -303,7 +305,9 @@ void listarLivrosPreOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("----------------------------------------\n");
     ListarPreOrdem(arvore->raiz);
+    printf("----------------------------------------\n");
 }
 
 
@@ -334,7 +338,9 @@ void listarLivrosPosOrdem(Arvore* arvore){
     // Complexidade: O(1). Essa função apenas chama a outra para começar a recursão, portanto, O(1).
 
     //Dá o nó inicial e vai printando os outros
+    printf("----------------------------------------\n");
     ListarPosOrdem(arvore->raiz);
+    printf("----------------------------------------\n");
 }
 
 

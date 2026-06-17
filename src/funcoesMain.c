@@ -137,7 +137,7 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     int quantidadeTotal;
 
     // Pega cada dado do livro
-    printf("Digite o codigo do livro a ser inserido: \n");
+    printf("\nDigite o codigo do livro a ser inserido: \n");
     scanf("%d", &codigo);
 
     printf("Digite o titulo do livro a ser inserido:\n");
