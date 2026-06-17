@@ -23,7 +23,7 @@ A solução foi estruturada utilizando Tipos Abstratos de Dados (TADs) e faz uso
 Para compilar o código-fonte, certifique-se de ter o compilador `gcc` instalado em sua máquina. Navegue até o diretório raiz do projeto onde os arquivos `.c` e `.h` estão localizados e execute o seguinte comando no terminal:
 
 ```bash
-gcc main.c funcoesMain.c livro.c arvore.c fila.c lista.c -o biblioteca
+gcc src/main.c src/funcoesMain.c src/livro.c src/arvore.c src/fila.c src/lista.c -o biblioteca.exe
 ```
 
 Após a compilação bem-sucedida, um arquivo executável chamado `biblioteca` (ou biblioteca.exe no Windows) será gerado. Para iniciar o sistema, execute o comando correspondente ao seu sistema operacional:
