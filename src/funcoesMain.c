@@ -75,7 +75,7 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
         // Pega o nome do usuario que quer pegar o livro
         printf("Digite o nome do usuario a alugar o livro: \n");
-        scanf("%s\n",&nomeUsuario);
+        scanf(" %[^\n]", nomeUsuario); 
 
         // Chama a função que realiza esse empréstimo
         realizarEmprestimo(conjunto, codigoLivroEscolhido, nomeUsuario);
@@ -141,7 +141,8 @@ int cadastrarLivro(Arvore *ArvorePrincipal)
     scanf("%d", &codigo);
 
     printf("Digite o titulo do livro a ser inserido:\n");
-    scanf(" %[^\n]", titulo); // O espaço antes do % limpa o buffer do \n deixado pelo código
+    scanf(" %[^\n]", titulo); // Lê até o \n deixado pelo Enter
+    // O espaço antes do % limpa o buffer do \n deixado pelo código
 
     printf("Digite o autor/a autora do livro a ser inserido:\n");
     scanf(" %[^\n]", autor);

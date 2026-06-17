@@ -356,7 +356,7 @@ int contarNaSubArvore(NoArvore* no){
 
 //Função principal pra "dar o start" na recursividade
 int contarLivros(Arvore* arvore){
-    contarNaSubArvore(arvore->raiz);
+    return contarNaSubArvore(arvore->raiz);
 }
     
 
@@ -425,6 +425,8 @@ NoArvore* rotacaoPraDireita(NoArvore *y){
     // Atualiza as alturas
     y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
     x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
+
+    return x;
 }
 
 NoArvore* rotacaoPraEsquerda(NoArvore *x){
@@ -441,6 +443,8 @@ NoArvore* rotacaoPraEsquerda(NoArvore *x){
     // Atualiza as novas alturas
     x->altura = (max(getAlturaNo(x->esquerda), getAlturaNo(x->direita)) + 1);
     y->altura = (max(getAlturaNo(y->esquerda), getAlturaNo(y->direita)) + 1);
+
+    return y;
 }
     
     
