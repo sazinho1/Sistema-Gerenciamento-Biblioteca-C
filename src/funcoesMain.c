@@ -71,7 +71,7 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
         // Pega o codigo do livro a ser emprestado
         printf("Digite o codigo do livro: \n");
-        scanf("%d\n", &codigoLivroEscolhido);
+        scanf("%d", &codigoLivroEscolhido);
 
         // Pega o nome do usuario que quer pegar o livro
         printf("Digite o nome do usuario a alugar o livro: \n");

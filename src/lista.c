@@ -96,10 +96,11 @@ void listarEmprestimos(Lista *lista)
     // Loop que caminha pela lista imprimindo os dados até chegar ao fim (NULL)
     while (atual != NULL)
     {
+        
+        printf("\n-------------------------\n");
         printf("Usuario: %s\n", atual->emprestimo.nomeUsuario);
         printf("Codigo do Livro: %d\n", atual->emprestimo.codigoLivro);
         printf("Titulo do Livro: %s\n", atual->emprestimo.tituloLivro);
-        printf("-------------------------\n");
         atual = atual->proximo; // Avança para o próximo nó
     }
 }
