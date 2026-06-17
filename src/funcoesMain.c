@@ -217,11 +217,11 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         inserirEmprestimo(conjunto->ListaPrincipal, *emprestimo);
 
         // Retorna a mensagem para informar o sucesso
-        printf("\nEmpréstimo realizado com sucesso!\n");
+        printf("\nEmprestimo realizado com sucesso!\n");
     }
 
     // Caso o livro não exista, retorna o aviso do erro
-    printf("\nERRO: LIVRO NÃO EXISTE\n");
+    if(livro == NULL) printf("\nERRO: LIVRO NÃO EXISTE\n");
     return;
 }
 
