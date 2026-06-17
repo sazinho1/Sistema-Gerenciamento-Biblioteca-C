@@ -366,32 +366,18 @@ int contarLivros(Arvore* arvore){
 }
     
 
-//Usando uma função auxiliar para ir pegando os Nós, e não a Arvore, já que a árvore inteira é só um ponteiro para a raiz. Isso é pra manter a assinatura original pedida no arquivo ("contarLivros(Arvore* arvore)").
-int calcularAltura(NoArvore* no){
-
-    //Complexidade: O(n) em todos os casos (vai sempre visitar todos os nós pra ver a altura da arvore)
-
-    // Caso base
-    if(no == NULL){
-        return 0;
-    }
-
-    int alturaEsquerda = calcularAltura(no->esquerda);//Recursão na esquerda
-
-    int alturaDireita = calcularAltura(no->direita);//Recursão na direita
-
-    // Retorna a maior + 1 (raiz da sub arvore)
-    if(alturaEsquerda > alturaDireita){
-
-        return alturaEsquerda + 1;
+// Pega a altura da árvore
+int calcularAlturaArvore(Arvore* arvore){
+    
+    // Verifica se o ponteiro da árvore é válido e se não está vazia
+    if (arvore == NULL || arvore->raiz == NULL) {
+        return -1; // Árvore vazia ou inexistente tem altura -1
     }
     
-    return alturaDireita + 1;
+    // O(1): Devolve diretamente a altura calculada pela AVL na raiz tirando a margem de erro
+    return arvore->raiz->altura - 1;
 }
 
-int calcularAlturaArvore(Arvore* arvore){
-    return calcularAltura(arvore->raiz);
-}
 
 // FUNÇÕES PARA O BALANCEAMENTO DA ÁRVORE --------------------------------------------------------------------------
 

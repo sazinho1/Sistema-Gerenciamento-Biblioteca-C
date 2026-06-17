@@ -109,12 +109,12 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
     case 10: // Exibir quantidade de livros cadastrados
 
-        printf("A quantidade de livros cadastrados (ou nos da arvore) eh %d", contarLivros(conjunto->ArvorePrincipal));
+        printf("A quantidade de livros cadastrados (ou nos da arvore) eh %d\n\n", contarLivros(conjunto->ArvorePrincipal));
         break;
 
     case 11: // Exibir altura da árvore
 
-        printf("A altura da arvore eh %d", calcularAlturaArvore(conjunto->ArvorePrincipal));
+        printf("A altura da arvore eh %d\n\n", calcularAlturaArvore(conjunto->ArvorePrincipal));
         break;
 
     case 0: // Sair
