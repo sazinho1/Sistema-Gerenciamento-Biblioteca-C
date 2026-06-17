@@ -44,9 +44,9 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
     case 2: // Buscar livro por código
 
         printf("Digite o codigo do livro: \n");
-        scanf("%d\n", &codigoLivroEscolhido);
+        scanf("%d", &codigoLivroEscolhido);
         Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigoLivroEscolhido); // Faz a busca do livro na árvore
-        exibirLivro(livro);                                                                       // Mosta o livro
+        exibirLivro(livro); // Mosta o livro
         break;
 
     case 3: // Listar livros em ordem crescente de codigo
