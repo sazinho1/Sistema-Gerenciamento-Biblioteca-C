@@ -43,7 +43,7 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
     case 2: // Buscar livro por código
 
-        printf("Digite o codigo do livro: \n");
+        printf("\nDigite o codigo do livro: \n");
         scanf("%d", &codigoLivroEscolhido);
         Livro *livro = buscarLivroArvore(conjunto->ArvorePrincipal, codigoLivroEscolhido); // Faz a busca do livro na árvore
         exibirLivro(livro); // Mosta o livro
@@ -185,9 +185,9 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         {
             int escolha;
 
-            printf("Não existe nenhum exemplar desse livro disponível agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Não\n");
+            printf("Nao existe nenhum exemplar desse livro disponivel agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Nao\n");
 
-            scanf("%d\n", &escolha);
+            scanf("%d", &escolha);
 
             // Caso não queira a reserva, retorna
             if (escolha == 0)
@@ -221,7 +221,7 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
     }
 
     // Caso o livro não exista, retorna o aviso do erro
-    if(livro == NULL) printf("\nERRO: LIVRO NÃO EXISTE\n");
+    if(livro == NULL) printf("\nERRO: LIVRO NAO EXISTE\n");
     return;
 }
 
@@ -247,7 +247,7 @@ void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
             exibirReservas(conjunto->FilaPrincipal);
 
             // Avisa ao usuário que havia alguém esperando um livro desse
-            printf("\nTem um usuário na fila esperando para receber esse livro! Obrigado por devolvê-lo.\n");
+            printf("\nTem um usuário na fila esperando para receber esse livro! Obrigado por devolve-lo.\n");
 
             // Fecha a reserva e abre um empréstimo para quem estava esperando
             desenfileirarReserva(conjunto->FilaPrincipal);
@@ -256,11 +256,11 @@ void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
         }    
         
         // Caso o livro seja devolvido e não tenha nenhum usuário esperando por um exemplar
-        printf("\nObrigado pela devolução! Volte sempre.\n");
+        printf("\nObrigado pela devolucaoo! Volte sempre.\n");
 
     }
 
-    printf("\nERRO: LIVRO NÃO EXISTE\n");
+    printf("\nERRO: LIVRO NAO EXISTE\n");
     return;
 
 }

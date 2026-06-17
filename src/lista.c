@@ -30,7 +30,7 @@ Emprestimo *criarEmprestimo(char nome[], int codigo, char titulo[])
     // Verificação de segurança caso o sistema fique sem memória RAM
     if (emprestimo == NULL)
     {
-        printf("Erro ao criar o empréstimo. Tente novamente.\n");
+        printf("Erro ao criar o emprestimo. Tente novamente.\n");
         return NULL;
     }
 
