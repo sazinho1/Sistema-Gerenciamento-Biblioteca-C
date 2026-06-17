@@ -185,7 +185,7 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
         {
             int escolha;
 
-            printf("Nao existe nenhum exemplar desse livro disponivel agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Nao\n");
+            printf("\nNao existe nenhum exemplar desse livro disponivel agora. Gostaria de entrar na fila de reserva para esse livro?\n1 - Sim\n0 - Nao\n\n");
 
             scanf("%d", &escolha);
 
@@ -202,8 +202,9 @@ void realizarEmprestimo(ConjuntoSistema *conjunto, int codigo, char nome[])
                 if (reserva == NULL)
                     return;
 
-                // Enfileira a reserva
+                // Enfileira a reserva e retorna
                 enfileirarReserva(conjunto->FilaPrincipal, *reserva);
+                return;
             }
         }
 
