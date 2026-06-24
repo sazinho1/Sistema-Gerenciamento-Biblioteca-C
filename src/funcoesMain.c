@@ -86,7 +86,7 @@ void escolherOpcaoMenu(ConjuntoSistema *conjunto, int opcaoEscolhida)
 
         // Pega o codigo do livro a ser emprestado
         printf("Digite o codigo do livro: \n");
-        scanf("%d\n", &codigoLivroEscolhido);
+        scanf("%d", &codigoLivroEscolhido);
 
         // Chama a função que realiza essa devolução
         realizarDevolucao(conjunto, codigoLivroEscolhido);
@@ -258,8 +258,9 @@ void realizarDevolucao(ConjuntoSistema* conjunto, int codigo)
         }    
         
         // Caso o livro seja devolvido e não tenha nenhum usuário esperando por um exemplar
-        printf("\nObrigado pela devolucaoo! Volte sempre.\n");
-
+        printf("\nObrigado pela devolucao! Volte sempre.\n");
+        return;
+        
     }
 
     printf("\nERRO: LIVRO NAO EXISTE\n");
